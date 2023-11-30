@@ -82,8 +82,8 @@ def calcSBD(x,y,s=None):
     return sbd
 
 def cluster_main(config,if_turn = False):
-    config = config['cluster']
-    input_data_path = config['input_data_path']
+    cluster_config  = config['cluster']
+    input_data_path = cluster_config ['input_data_path']
     a = np.load(input_data_path)
     all_data=a['x']
     label = a['y']
@@ -214,15 +214,15 @@ def cluster_main(config,if_turn = False):
             pred.append(test_pred_label_1[i])
    
     result['result'] = pred
-    if not os.path.exists(os.path.split(config["output_data_path"])[0]):
-        os.mkdir(os.path.split(config["output_data_path"])[0])
-    result.to_csv(config["output_data_path"],index=False)
+    if not os.path.exists(os.path.split(cluster_config["output_data_path"])[0]):
+        os.mkdir(os.path.split(cluster_config["output_data_path"])[0])
+    result.to_csv(cluster_config["output_data_path"],index=False)
 
     # 10 snapshots to 1 result:
-    cluster_stat(config['output_data_path'],config['stat_output_path'])
+    cluster_stat(cluster_config['output_data_path'],cluster_config['stat_output_path'],config)
     
     # score:
-    score_report(config['stat_output_path'],config['report_output_path'])
+    score_report(cluster_config['stat_output_path'],cluster_config['report_output_path'])
 
 if __name__ == '__main__':
     cluster_main(None)
