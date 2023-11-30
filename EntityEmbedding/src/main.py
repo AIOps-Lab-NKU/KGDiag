@@ -276,6 +276,8 @@ def run_experiment(args, n_hidden=None, n_layers=None, dropout=None, n_bases=Non
 
     model_name = args.model_name
     model_state_file = args.model_path + model_name
+    if not os.path.exists(args.model_path):
+        os.makedirs(args.model_path)
     print("Sanity Check: stat name : {}".format(model_state_file))
     print("Sanity Check: Is cuda available ? {}".format(torch.cuda.is_available()))
 
@@ -535,6 +537,8 @@ def cases_train(args, n_hidden=None, n_layers=None, dropout=None, n_bases=None):
     all_ans_list_r_test = utils.load_all_answers_for_time_filter(data.test, num_rels, num_nodes, True)
 
     model_state_file = args.model_path + model_name
+    if not os.path.exists(args.model_path):
+        os.makedirs(args.model_path)
     print("Sanity Check: stat name : {}".format(model_state_file))
     print("Sanity Check: Is cuda available ? {}".format(torch.cuda.is_available()))
 
