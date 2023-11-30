@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import yaml
 import sys
+from Cluster.cluster import cluster_main 
 
 # cluster results process: 
 # every case in GAIA lasts for 10 mins and every minute has a result.
@@ -39,17 +40,30 @@ def find_max(values,results):
         return max_index[idx_min.index(min(idx_min))]
 
 
-def cluster_stat(output_data_path,stat_output_path):
-    normal_threshold = 6
+def cluster_stat(output_data_path,stat_output_path,config):
+    # print(config)
+    dataset = config['dataset'] 
+    if dataset == 'gaia': 
+        normal_threshold = 6
     result = pd.read_csv(output_data_path,sep=',')
     
     # valid:
     if result['result'].tolist().count(0)==len(result['result'].tolist()):
-        print("All results are ZERO! Embedding is invalid. Please run main.py again.")
-        sys.exit()
+        # 需要0，1置换。回溯
+        # 避免循环引入
+        cluster_main(config,if_turn=True)
+
+    # 判断当resultlabel 0的最后一个位置插进去一个0，0
+    # add one row of zero: 
+    last_row_index = None
+    for i in range(len(result.values)):
+        if result.values[i][0] == 0:
+            last_row_index = i 
+        else: 
+            break
 
     # add one row of zero:
-    df = pd.DataFrame(np.insert(result.values, 2, values=[0,0], axis=0))
+    df = pd.DataFrame(np.insert(result.values, last_row_index + 1, values=[0,0], axis=0))
     df.columns = result.columns
 
     group = df.groupby(df.index//10)
