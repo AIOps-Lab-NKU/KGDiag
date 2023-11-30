@@ -145,7 +145,7 @@ def for_GAIA_graph(config):
     t_data = numpy.array(train_data)
     t_label = numpy.array(train_label)
     if not os.path.exists(config['output_data_path_g']):
-        os.mkdir(config['output_data_path_g'])
+        os.makedirs(config['output_data_path_g'])
     numpy.savez(os.path.join(config['output_data_path_g'],'GAIA_all.npz'),x = a_data,y=a_label)
     numpy.savez(os.path.join(config['output_data_path_g'],'GAIA_train.npz'),x = t_data,y=t_label)
 
