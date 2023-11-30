@@ -81,7 +81,7 @@ def calcSBD(x,y,s=None):
         sbd = 1 - ncc #sbd: data is 0-2, so it is more appropriate to return ncc for explaining the correlation here.
     return sbd
 
-def cluster_main(config):
+def cluster_main(config,if_turn = False):
     config = config['cluster']
     input_data_path = config['input_data_path']
     a = np.load(input_data_path)
@@ -122,11 +122,14 @@ def cluster_main(config):
     model_1 = AgglomerativeClustering(n_clusters=2).fit(train_data)
     agg_labels_1 = model_1.labels_
     # print(agg_labels_1)
-    for i in range(len(agg_labels_1)):
-        if agg_labels_1[i] == 0:
-            agg_labels_1[i] =1
-        else:
-            agg_labels_1[i] =0
+
+    # 加条件判断
+    if if_turn:
+        for i in range(len(agg_labels_1)):
+            if agg_labels_1[i] == 0:
+                agg_labels_1[i] =1
+            else:
+                agg_labels_1[i] =0
 
     n_cluster = 2
     n_vector = 100 # embedding vectors' dimension
