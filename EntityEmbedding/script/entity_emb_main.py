@@ -36,10 +36,10 @@ def entity_emb_main(config):
     # RE-GCN
     # train:
     if not os.path.exists(entity_emb_config['output_data_path']):
-        os.mkdir(entity_emb_config['output_data_path'])
+        os.makedirs(entity_emb_config['output_data_path'])
     train_output_embedding = os.path.join(entity_emb_config['output_data_path'],'normal')
     if not os.path.exists(train_output_embedding):
-        os.mkdir(train_output_embedding)
+        os.makedirs(train_output_embedding)
     command = "python3 {} --path_normal {}  -d normal  --model_name {} --model_path {} --nodes_list {} --n-hidden {} --n-layers {} --n-epochs {} --layer-norm --weight 0.5 --entity-prediction --relation-prediction --output_embedding {} --train-history-len {} --test-history-len {} > {} ".format(entity_emb_config['RE-GCN_main'],entity_emb_config['input_data_path'],entity_emb_config['model_name'],entity_emb_config['model_path'],entity_emb_config['nodes'],entity_emb_config['hidden_dimension'],entity_emb_config['gcn_layer'],entity_emb_config['epoch'],train_output_embedding,entity_emb_config['window_size'],entity_emb_config['window_size'],entity_emb_config['log_path']+'/'+dataset_choice+'_train.txt')
     res = os.system(command)
     print("Entity Embedding Model Train √")
