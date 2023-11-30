@@ -182,6 +182,8 @@ def get_train_lasttime(case_input):
 # main process for GAIA
 def for_GAIA_process(data_input,logfile):
     # logger
+    if not os.path.exists('EntityEmbedding/log'):
+        os.makedirs('EntityEmbedding/log')
     logger = open(logfile,'w')
     anomalies_list = os.listdir(data_input)
     last_timestamp = normal_case(data_input,logger)
